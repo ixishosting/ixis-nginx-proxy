@@ -1,4 +1,5 @@
 FROM nginx:1.9.12
+MAINTAINER Jason Wilder mail@jasonwilder.com
 
 # Install wget and install/updates certificates
 RUN apt-get update \
@@ -24,11 +25,11 @@ RUN wget https://github.com/jwilder/docker-gen/releases/download/$DOCKER_GEN_VER
 
 COPY . /app/
 WORKDIR /app/
+RUN mkdir /etc/nginx/certs
 
 ENV DOCKER_HOST unix:///tmp/docker.sock
 
-VOLUME ["/etc/nginx"]
-VOLUME ["/etc/nginx/certs"]
+#VOLUME ["/etc/nginx/certs"]
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["forego", "start", "-r"]
